@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "types": ["@testing-library/jest-dom", "vitest/globals"],
+    "paths": {}
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"]
+}

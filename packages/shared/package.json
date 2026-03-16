@@ -1,0 +1,25 @@
+{
+  "name": "@todo-app/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run --coverage"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.0",
+    "uuid": "^9.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.0",
+    "@vitest/coverage-v8": "^1.4.0",
+    "vitest": "^1.4.0",
+    "typescript": "^5.4.0"
+  }
+}
