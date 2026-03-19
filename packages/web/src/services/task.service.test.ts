@@ -148,14 +148,14 @@ describe('getInboxTasks', () => {
   });
 
   it('returns tasks ordered newest first', () => {
-    // Mock Date to return incrementing timestamps so sort order is deterministic
-    const timestamps = [
-      '2024-11-14T00:00:01.000Z',
-      '2024-11-14T00:00:02.000Z',
-      '2024-11-14T00:00:03.000Z',
-    ];
+    // Monotonically increasing per call — avoids cycling so DOMPurify's own
+    // toISOString() calls don't collide with the task created_at timestamps.
+    // Returns a plain string to prevent infinite recursion from calling
+    // new Date().toISOString() inside the mock.
     let tick = 0;
-    vi.spyOn(Date.prototype, 'toISOString').mockImplementation(() => timestamps[tick++ % 3]!);
+    vi.spyOn(Date.prototype, 'toISOString').mockImplementation(
+      () => `2024-01-01T00:00:${String(++tick).padStart(2, '0')}.000Z`,
+    );
 
     createTask({ title: 'First', user_id: TEST_USER_ID });
     createTask({ title: 'Second', user_id: TEST_USER_ID });

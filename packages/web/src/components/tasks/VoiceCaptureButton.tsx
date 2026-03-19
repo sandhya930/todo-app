@@ -111,15 +111,6 @@ export function VoiceCaptureButton({ onTaskCreated, className }: VoiceCaptureBut
     svc.start();
   }, []);
 
-  const handleMicClick = useCallback(async () => {
-    const seen = localStorage.getItem(PRIVACY_NOTICE_KEY);
-    if (!seen) {
-      setPhase('privacy-notice');
-      return;
-    }
-    await beginCapture();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const beginCapture = useCallback(async () => {
     const permission = await checkMicPermission();
     if (permission === 'denied') {
@@ -135,6 +126,15 @@ export function VoiceCaptureButton({ onTaskCreated, className }: VoiceCaptureBut
     }
     startRecording();
   }, [startRecording]);
+
+  const handleMicClick = useCallback(async () => {
+    const seen = localStorage.getItem(PRIVACY_NOTICE_KEY);
+    if (!seen) {
+      setPhase('privacy-notice');
+      return;
+    }
+    await beginCapture();
+  }, [beginCapture]);
 
   const handlePrivacyAccept = useCallback(async () => {
     localStorage.setItem(PRIVACY_NOTICE_KEY, '1');
@@ -386,17 +386,18 @@ export function VoiceCaptureButton({ onTaskCreated, className }: VoiceCaptureBut
           <p className="voice-capture__permission-body">
             Please allow microphone access in your browser settings, then try again.
           </p>
+          <p className="voice-capture__permission-hint">
+            Click the lock icon in your browser's address bar and allow
+            microphone access, then try again.
+          </p>
           <div className="voice-capture__permission-actions">
-            <a
-              href="about:blank"
-              target="_blank"
-              rel="noreferrer"
+            <span
               className="voice-capture__btn voice-capture__btn--primary"
               aria-label="Open browser settings"
               data-testid="voice-open-settings-link"
             >
-              Open Settings
-            </a>
+              Allow mic in browser settings
+            </span>
             <button
               type="button"
               className="voice-capture__btn voice-capture__btn--ghost"
